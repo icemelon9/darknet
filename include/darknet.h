@@ -643,6 +643,7 @@ char *option_find_str(list *l, char *key, char *def);
 int option_find_int(list *l, char *key, int def);
 
 network *parse_network_cfg(char *filename);
+network *parse_network_cfg_spec(char *filename, int gpu_id, int batch, int w, int h);
 void save_weights(network *net, char *filename);
 void load_weights(network *net, char *filename);
 void save_weights_upto(network *net, char *filename, int cutoff);
