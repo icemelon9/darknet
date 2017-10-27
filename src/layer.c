@@ -94,11 +94,12 @@ void free_layer(layer l)
     if(l.squared_gpu)             cuda_free(l.squared_gpu);
     if(l.norms_gpu)               cuda_free(l.norms_gpu);
 #ifdef CUDNN
+    cudnnDestroyTensorDescriptor(l.normTensorDesc);
     cudnnDestroyTensorDescriptor(l.srcTensorDesc);
     cudnnDestroyTensorDescriptor(l.dstTensorDesc);
+    cudnnDestroyFilterDescriptor(l.weightDesc);
     cudnnDestroyTensorDescriptor(l.dsrcTensorDesc);
     cudnnDestroyTensorDescriptor(l.ddstTensorDesc);
-    cudnnDestroyFilterDescriptor(l.weightDesc);
     cudnnDestroyFilterDescriptor(l.dweightDesc);
     cudnnDestroyConvolutionDescriptor(l.convDesc);
 #endif

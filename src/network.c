@@ -355,7 +355,6 @@ int resize_network(network *net, int w, int h)
 {
 #ifdef GPU
     cuda_set_device(net->gpu_index);
-    cuda_free(net->workspace);
 #endif
     int i;
     //if(w == net->w && h == net->h) return 0;
@@ -393,7 +392,7 @@ int resize_network(network *net, int w, int h)
         net->layers[i] = l;
         w = l.out_w;
         h = l.out_h;
-        if(l.type == AVGPOOL) break;
+        //if(l.type == AVGPOOL) break;
     }
     layer out = get_network_output_layer(net);
     net->inputs = net->layers[0].inputs;
@@ -409,6 +408,7 @@ int resize_network(network *net, int w, int h)
     if(gpu_index >= 0){
         cuda_free(net->input_gpu);
         cuda_free(net->truth_gpu);
+        cuda_free(net->workspace);
         net->input_gpu = cuda_make_array(net->input, net->inputs*net->batch);
         net->truth_gpu = cuda_make_array(net->truth, net->truths*net->batch);
         net->workspace = cuda_make_array(0, (workspace_size-1)/sizeof(float)+1);
