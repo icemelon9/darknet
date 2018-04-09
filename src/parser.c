@@ -794,6 +794,7 @@ network *parse_network_cfg_spec(char *filename, int gpu_id, int batch, int w, in
     if (w > 0 && h > 0) {
       net->h = h;
       net->w = w;
+      net->inputs = h * w * net->c;
     }
 
     params.h = net->h;
@@ -900,6 +901,7 @@ network *parse_network_cfg_spec(char *filename, int gpu_id, int batch, int w, in
     net->truth = calloc(net->truths*net->batch, sizeof(float));
 #ifdef GPU
     net->output_gpu = out.output_gpu;
+    printf("cuda_make_array: %d\n", net->inputs * net->batch);
     net->input_gpu = cuda_make_array(net->input, net->inputs*net->batch);
     net->truth_gpu = cuda_make_array(net->truth, net->truths*net->batch);
 #endif
