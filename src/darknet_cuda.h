@@ -1,5 +1,5 @@
-#ifndef CUDA_H
-#define CUDA_H
+#ifndef DARKNET_CUDA_H
+#define DARKNET_CUDA_H
 
 #include "darknet.h"
 

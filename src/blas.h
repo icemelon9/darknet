@@ -43,7 +43,7 @@ void softmax(float *input, int n, float temp, int stride, float *output);
 void softmax_cpu(float *input, int n, int batch, int batch_offset, int groups, int group_offset, int stride, float temp, float *output);
 
 #ifdef GPU
-#include "cuda.h"
+#include "darknet_cuda.h"
 #include "tree.h"
 
 void axpy_gpu(int N, float ALPHA, float * X, int INCX, float * Y, int INCY);
