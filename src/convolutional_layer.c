@@ -12,6 +12,8 @@
 #include "xnor_layer.h"
 #endif
 
+#define MAX_CUDNN_WORKSPACE 2000000000
+
 void swap_binary(convolutional_layer *l)
 {
     float *swap = l->weights;
@@ -150,24 +152,24 @@ void cudnn_convolutional_setup(layer *l)
             l->weightDesc,
             l->convDesc,
             l->dstTensorDesc,
-            CUDNN_CONVOLUTION_FWD_PREFER_FASTEST,
-            0,
+	    CUDNN_CONVOLUTION_FWD_SPECIFY_WORKSPACE_LIMIT,
+	    MAX_CUDNN_WORKSPACE,
             &l->fw_algo);
     cudnnGetConvolutionBackwardDataAlgorithm(cudnn_handle(),
             l->weightDesc,
             l->ddstTensorDesc,
             l->convDesc,
             l->dsrcTensorDesc,
-            CUDNN_CONVOLUTION_BWD_DATA_PREFER_FASTEST,
-            0,
+	    CUDNN_CONVOLUTION_BWD_DATA_SPECIFY_WORKSPACE_LIMIT,
+	    MAX_CUDNN_WORKSPACE,
             &l->bd_algo);
     cudnnGetConvolutionBackwardFilterAlgorithm(cudnn_handle(),
             l->srcTensorDesc,
             l->ddstTensorDesc,
             l->convDesc,
             l->dweightDesc,
-            CUDNN_CONVOLUTION_BWD_FILTER_PREFER_FASTEST,
-            0,
+	    CUDNN_CONVOLUTION_BWD_FILTER_SPECIFY_WORKSPACE_LIMIT,
+	    MAX_CUDNN_WORKSPACE,
             &l->bf_algo);
 }
 #endif
